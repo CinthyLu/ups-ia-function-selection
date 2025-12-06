@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       {/* <Loader /> */}
-      <Leva hidden/>
+      <Leva/>
       <BrowserRouter>
 
         <Navbar />

@@ -1,16 +1,24 @@
 import { useState } from "react";
+import { useChat } from "../hooks/useChat";
 
 export function Requests() {
+
+  const { chat, loading, cameraZoomed, setCameraZoomed, message, setAnimationChat } = useChat();
+    
+
+
   // FORMULARIO
   const [producto, setProducto] = useState("");
   const [fecha, setFecha] = useState("");
+  const [modoAvanzado, setModoAvanzado] = useState(false);
+
 
   // RESPUESTAS
   const [respuesta, setRespuesta] = useState("");
   const [respuestaModelo, setRespuestaModelo] = useState(null);
 
   // ESTADOS
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [predicciones, setPredicciones] = useState([]);
 
@@ -127,7 +135,7 @@ export function Requests() {
     const r = await apiRequest(`${API_URL}/predict-product-out`, {
       method: "POST",
       body: JSON.stringify({
-        product_name: producto,
+        product_name: producto, 
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -200,6 +208,31 @@ export function Requests() {
                 className="border-2 border-[#0f2c63] rounded-3xl w-full px-6 py-3 text-xl"
               />
 
+            </div>
+            {/* SWITCH */}
+            <div className="flex items-center mt-7 gap-4 mb-6 ">
+
+              <span className="text-[#0f2c63] text-xl font-semibold">
+                Utilizar LLM
+              </span>
+
+              <button
+                onClick={() => setModoAvanzado(!modoAvanzado)}
+                className={`
+                  relative w-16 h-8 rounded-full transition-all duration-300
+                  ${modoAvanzado ? "bg-[#0f2c63]" : "bg-gray-300"}
+                `}
+              >
+
+                <span
+                  className={`
+                    absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md
+                    transition-all duration-300
+                    ${modoAvanzado ? "translate-x-8" : ""}
+                  `}
+                ></span>
+
+              </button>
             </div>
           </div>
 

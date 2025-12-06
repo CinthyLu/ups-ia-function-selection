@@ -12,7 +12,7 @@ export function Home() {
 
       <div className="border-b-8 border-[#ffb703] w-full"></div>
 
-      <div className="w-full flex justify-between items-center px-20 pt-12 pb-12 text-[#0f2c63] bg-[#fff] text-3xl mb-0 pb-0">
+      <div className="w-full flex justify-between items-center px-20 pt-16 text-[#0f2c63] bg-[#fff] text-3xl mb-0 pb-0">
         <div>Cueva Jorge - Quito Karen - Barzallo Quito</div>
         <div>Cuenca - Ecuador</div>
       </div>
