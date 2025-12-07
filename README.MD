@@ -9,6 +9,11 @@ maneje los métodos de predicción
     - Predicción stock con fecha
     - Predicción stock con fecha y producto
 
+Function Matcher:
+    - expresiones regulares para obtener los parametros
+    - similaridad de coseno en funciones
+    - llamado de funciones
+
 
 Agregar nuevos registros productos
     - en formato csv
