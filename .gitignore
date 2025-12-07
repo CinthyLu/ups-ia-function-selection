@@ -1,4 +1,5 @@
 .env
+audios/
 .venv
 .vscode
 __pycache__/
