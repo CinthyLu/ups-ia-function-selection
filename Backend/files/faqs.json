@@ -1,0 +1,78 @@
+[
+  {
+    "pregunta": "¿Cuáles son los horarios de atención?",
+    "respuesta": "Nuestro horario es de Lunes a Viernes de 09:00 AM a 06:30 PM, y Sábados de 09:00 AM a 01:00 PM."
+  },
+  {
+    "pregunta": "¿A qué hora abren?",
+    "respuesta": "Nuestro horario es de Lunes a Viernes de 09:00 AM a 06:30 PM, y Sábados de 09:00 AM a 01:00 PM."
+  },
+  {
+    "pregunta": "¿Están abiertos los domingos?",
+    "respuesta": "Nuestro horario es de Lunes a Viernes de 09:00 AM a 06:30 PM, y Sábados de 09:00 AM a 01:00 PM. Domingos cerrado."
+  },
+
+
+  {
+    "pregunta": "¿Cuál es la ubicación del local?",
+    "respuesta": "Estamos ubicados en el Centro Histórico de Cuenca, Calle Larga y Borrero, Edificio Tecnológico, Piso 2."
+  },
+  {
+    "pregunta": "¿Dónde quedan?",
+    "respuesta": "Estamos ubicados en el Centro Histórico de Cuenca, Calle Larga y Borrero, Edificio Tecnológico, Piso 2."
+  },
+  {
+    "pregunta": "Dirección de la tienda",
+    "respuesta": "Estamos ubicados en el Centro Histórico de Cuenca, Calle Larga y Borrero, Edificio Tecnológico, Piso 2."
+  },
+
+
+  {
+    "pregunta": "¿Cuál es la misión y visión de ARC?",
+    "respuesta": "Nuestra misión es democratizar el acceso a tecnología de punta en el austro ecuatoriano, especializándonos en hardware para gaming y profesional."
+  },
+  {
+    "pregunta": "¿Quiénes son ustedes?",
+    "respuesta": "Somos ARC, una tienda líder en tecnología fundada en 2018. Nuestra misión es democratizar el acceso a tecnología de punta."
+  },
+
+
+  {
+    "pregunta": "¿Cómo funciona la garantía de los productos?",
+    "respuesta": "Ofrecemos 1 año de garantía contra defectos de fábrica en todos los productos. No cubre daños por humedad o golpes."
+  },
+  {
+    "pregunta": "Se me dañó el producto, ¿qué hago?",
+    "respuesta": "Ofrecemos 1 año de garantía contra defectos de fábrica. Acércate con tu factura. Recuerda que no cubre daños por humedad o golpes."
+  },
+
+
+  {
+    "pregunta": "¿Qué servicios técnicos ofrecen?",
+    "respuesta": "Ofrecemos asesoría para armado de PCs, instalación de drivers y configuración de periféricos de forma gratuita con tu compra."
+  },
+  {
+    "pregunta": "¿Arreglan computadoras?",
+    "respuesta": "Ofrecemos asesoría para armado de PCs y soporte post-venta, pero no somos un taller de reparación general, solo de nuestros productos."
+  },
+
+
+  {
+    "pregunta": "¿Cuál es su producto estrella?",
+    "respuesta": "Nuestro producto estrella es la Laptop Dell Inspiron 15 (Gama Alta) y en accesorios el Mouse Logitech MX Master 3."
+  },
+  {
+    "pregunta": "¿Cuál es la mejor computadora que tienen?",
+    "respuesta": "Nuestro producto estrella es la Laptop Dell Inspiron 15 (Gama Alta), ideal para arquitectura e ingeniería."
+  },
+
+
+  {
+    "pregunta": "¿Venden a otras ciudades?",
+    "respuesta": "Sí, realizamos envíos seguros a todo el Ecuador mediante courier, con cobertura especial a Azogues y Gualaceo."
+  },
+  {
+    "pregunta": "¿Hacen envíos a Guayaquil o Quito?",
+    "respuesta": "Sí, realizamos envíos seguros a todo el Ecuador mediante courier."
+  }
+]

@@ -1,0 +1,59 @@
+=== INFORMACIÓN INSTITUCIONAL DE ARC ===
+
+IDENTIDAD:
+Nombre: "ARC Tienda de electrónica avanzada"
+Somos una tienda líder en tecnología fundada en el año 2018 en la ciudad de Cuenca, Ecuador. La empresa nació como una startup universitaria enfocada en proveer hardware de alto rendimiento para estudiantes de ingeniería y arquitectura.
+
+MISIÓN Y VISIÓN:
+Nuestra misión es democratizar el acceso a tecnología de punta en el austro ecuatoriano. Nos especializamos en hardware para gaming, desarrollo de software y productividad profesional.
+
+UBICACIÓN Y CONTACTO:
+Nuestro local principal se encuentra en el Centro Histórico de Cuenca, en la Calle Larga y Borrero, Edificio Tecnológico, Piso 2.
+Para contactar, puede encontrarnos en nuestra página web: www.arc.com.ec
+
+HORARIOS DE ATENCIÓN:
+Atendemos al público de Lunes a Viernes de 09:00 AM a 06:30 PM ininterrumpidamente.
+Los días Sábados atendemos media jornada, de 09:00 AM a 01:00 PM.
+Domingos y feriados nacionales no hay atención presencial, solo soporte vía web.
+
+=== HITOS DE LA EMPRESA ===
+
+2018: Fundación de ARC en un pequeño local cerca de la Universidad de Cuenca.
+2020: Expansión de catálogo e importación directa con proveedores como TechDistributor SA y GlobalTech Imports.
+2023: Apertura de envíos a nivel nacional con cobertura especial a Azogues y Gualaceo.
+2025: Implementación de sistema de inventario automatizado con Inteligencia Artificial.
+
+=== SERVICIOS ===
+
+GARANTÍA TOTAL:
+Todos los productos vendidos por ARC cuentan con una garantía de 1 año contra defectos de fábrica. La garantía cubre fallos de hardware no provocados por el usuario. No cubre daños por humedad, golpes o variaciones de voltaje.
+
+ENVÍOS Y ENTREGAS:
+Realizamos entregas a domicilio dentro del casco urbano de Cuenca en menos de 24 horas. Para el resto del país, usamos servicios de courier asegurado.
+
+SOPORTE TÉCNICO:
+Ofrecemos asesoría gratuita pre-venta para armar PCs a medida y soporte post-venta para configuración de drivers y periféricos.
+
+=== CATÁLOGO DE PRODUCTOS DESTACADOS ===
+
+COMPUTACIÓN Y LAPTOPS (GAMA ALTA):
+En nuestra línea de portátiles, nuestro producto estrella es la "Laptop Dell Inspiron 15" (SKU: LAP-DELL-001), ideal para trabajo pesado.
+Para visualización profesional, ofrecemos el "Monitor LG UltraWide 34''" (SKU: MON-LG-002), perfecto para multitarea.
+Complementamos con la "Tablet Samsung Galaxy Tab S8" (SKU: TAB-SAM-040) para diseño y movilidad.
+
+PERIFÉRICOS Y ACCESORIOS (CATEGORÍA ACCESORIOS):
+Para mejorar tu setup, contamos con el "Mouse Logitech MX Master 3" (SKU: MOU-LOG-003) y el "Teclado Mecánico Corsair K70" (SKU: TEC-COR-005), favoritos de los programadores.
+En audio, disponemos de los "Auriculares Sony WH-1000XM5" (SKU: AUR-SON-008) con cancelación de ruido y el "Micrófono Blue Yeti" (SKU: MIC-BLU-050) para streaming.
+
+CONECTIVIDAD Y REDES (GAMA MEDIA):
+Mantenemos tu conexión estable con el "Router WiFi 6 TP-Link" (SKU: ROU-TPL-030) y el "Switch de Red Cisco 8 Puertos" (SKU: SWI-CIS-055).
+También ofrecemos soluciones de almacenamiento como el "Disco SSD Samsung 1TB" (SKU: SSD-SAM-020).
+
+GADGETS VARIOS:
+Para videoconferencias de alta calidad tenemos la "Webcam Logitech C920" y la "Cámara Web Razer Kiyo".
+Accesorios indispensables como el "Hub USB-C Anker 7 en 1", mochilas Targus y cables HDMI 4K Premium.
+
+=== POLÍTICA DE PROVEEDORES Y STOCK ===
+
+Nuestra cadena de suministro se alimenta de proveedores certificados como "TechDistributor SA", "ElectroSupply Corp" y "CompuWholesale Ltd".
+Realizamos auditorías periódicas de stock y ajustes manuales cuando se recibe mercancía nueva para asegurar que el inventario del sistema coincida con el físico en nuestros pasillos (A1 a D2).

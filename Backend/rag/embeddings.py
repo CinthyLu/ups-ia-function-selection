@@ -176,26 +176,18 @@ def add_batch_embeddings(
 # BÚSQUEDA SEMÁNTICA
 # ==========================
 
+
 def similarity_search(
     query_embedding: List[float],
-    top_k: int = 5,
+    top_k: int = 3,                
     group_filter: Optional[str] = None,
     intent_filter: Optional[str] = None,
+    threshold: float = 0.4,      
     session: Optional[Session] = None
 ) -> List[Tuple[RAGEmbedding, float]]:
     """
-    Búsqueda de los embeddings más cercanos (similaridad coseno).
-
-    Args:
-        query_embedding: embedding de la query (list[float])
-        top_k: cuántos resultados devolver
-        group_filter: si se quiere filtrar por group_name (ej. "prediccion")
-        intent_filter: si se quiere filtrar por intent
-        session: sesión SQLAlchemy opcional
-
-    Returns:
-        Lista de tuplas (objeto_RAGEmbedding, distancia)
-        Distancia menor = más similar
+    Busca los embeddings más cercanos usando distancia coseno.
+    Incluye un filtro de umbral para descartar coincidencias irrelevantes.
     """
     own_session = False
     if session is None:
@@ -203,31 +195,42 @@ def similarity_search(
         own_session = True
 
     try:
-        # Usamos la distancia coseno de pgvector-sqlalchemy
+        # 1. Definir la expresión de distancia (Coseno)
+        # Nota: En pgvector con cosine_distance: 0 es igual, 1 es opuesto.
+        # Queremos distancias BAJAS.
         distance_expr = RAGEmbedding.embedding.cosine_distance(query_embedding)
 
+        # 2. Construir la Query base
         query = session.query(RAGEmbedding, distance_expr.label("distance"))
 
+        # 3. Filtros Opcionales (Metadata)
         if group_filter:
             query = query.filter(RAGEmbedding.group_name == group_filter)
+        
         if intent_filter:
             query = query.filter(RAGEmbedding.intent == intent_filter)
 
+        # 4. FILTRO DE UMBRAL (La clave del éxito)
+        # Solo devolver registros si la distancia es MENOR al umbral.
+        # Esto evita que devuelva basura si la pregunta no tiene nada que ver.
+        query = query.filter(distance_expr < threshold)
+
+        # 5. Ordenar y Limitar
         results = (
-            query.order_by("distance")
+            query.order_by(distance_expr)  # Ordenar de menor distancia (más parecido) a mayor
             .limit(top_k)
             .all()
         )
 
-        # results es una lista de (RAGEmbedding, distance)
+        # Retorna: Lista de tuplas [(ObjetoRAG, 0.12), (ObjetoRAG, 0.15)]
         return results
+
     except Exception as e:
         print(f"✗ Error en similarity_search: {e}")
-        raise
+        return [] # Retornar lista vacía en error para no romper el flujo
     finally:
         if own_session:
             session.close()
-
 
 def delete_all_embeddings() -> int:
     """
@@ -275,9 +278,3 @@ if __name__ == "__main__":
         meta={"tipo": "intent", "descripcion": "Saludo estándar"}
     )
 
-    
-
-    # Búsqueda de prueba
-    # resultados = similarity_search(dummy_emb, top_k=3)
-    # for r, dist in resultados:
-    #     print(f"- {r.id} | grupo={r.group_name} | intent={r.intent} | dist={dist:.4f}")
