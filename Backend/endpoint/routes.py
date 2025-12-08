@@ -2,6 +2,7 @@ from fastapi import APIRouter, Body, UploadFile, File, Query, HTTPException
 
 from typing import Any, Dict
 from llm.llm import naturalize_response
+from datetime import date , timedelta
 from tts.textToSpeech import tts
 import base64
 import json
@@ -10,6 +11,7 @@ from ai.matcher import FunctionCaller
 from db.functions import generate_csv , generate_excel, top_selling, least_selling
 from llm.agent import check_regex_response
 from model.methods import predict_stock_product_date
+from db.models import listar_productos
 
 router = APIRouter()
 caller = FunctionCaller()
@@ -76,13 +78,43 @@ async def predict_product(request: Dict[str, Any] = Body(...)):
     if not product:
         return "Faltan campos obligatorios: name"
         
-    pred = "" ## mensaje de respuesta
+    day = date.today()
+
+    result = []
+    # Buscar hasta 365 días hacia adelante
+    for i in range (30):
+        day = day+timedelta(days=1)
+        pred = predict_stock_product_date(
+            product_id=product,
+            date=day
+        )
+
+        result.append(
+            {
+                      
+                "product_name": product,
+                "predicted_stock": int(pred["predicted_stock"]),
+                "date": day
+                
+        }
+        )
+        print({
+                      
+            "product_name": product,
+            "predicted_stock": int(pred["predicted_stock"]),
+            "date": day
+            
+        })
+        if pred["predicted_stock"] <= 0:
+            break
     
+    
+    pred = result
     
     llm = request.get("llm")
     
     if(llm):
-        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir stock de producto en el tiempo hasta que se agote los datos son los siguientes"+pred)
+        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir stock de producto en el tiempo hasta que se agote los datos son los siguientes"+str(pred))
     return pred
 
 
@@ -96,19 +128,38 @@ async def predict_date(request: Dict[str, Any] = Body(...)):
     Predice el stock de todos los productos específico hasta que se acabe
     """
     print("prediccion con fecha")
+    PRODUCTS = listar_productos()
     date = request.get("date")
 
     if not date:
         return  "Faltan campos obligatorios: date"
         
         
-    pred = "" ## mensaje de respuesta
+    results = []
+
+    for product in PRODUCTS:
+        predi = predict_stock_product_date(
+            product_id=product,
+            date=date
+        )
+
+        results.append({
+            "product_name": product,
+            "predicted_stock": int(predi["predicted_stock"]),
+            "date":date
+        })
+        print({
+            "product_name": product,
+            "predicted_stock": int(predi["predicted_stock"]),
+            "date":date
+        })
     
+    pred = results
     
     llm = request.get("llm")
     
     if(llm):
-        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir stock de todos los productos en cierta fecha los datos son los siguientes"+pred)
+        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir stock de todos los productos en cierta fecha los datos son los siguientes"+str(pred))
         
     return pred
 
@@ -122,12 +173,45 @@ async def predict_stock(request: Dict[str, Any] = Body(...)):
     Predice el stock de un producto específico hasta que se acabe
     """
     print("prediccion sin argumentos")
+    
+    PRODUCTS = listar_productos()
+    
     pred = "" ## mensaje de respuesta
+    
+    day = date.today()
+    results = []
+    
+    
+    for i in range (30):
+        zero = False
+        for product in PRODUCTS:
+            pred = predict_stock_product_date(
+                product_id=product,
+                date=day)
+            day = day+ timedelta(days=1)
+            
+            results.append({
+                    "product_name": product,
+                    "predicted_stock": int(pred["predicted_stock"]),
+                    "current_stock": pred["current_stock"],
+                })
+            print(str({
+                    "product_name": product,
+                    "predicted_stock": int(pred["predicted_stock"]),
+                    "current_stock": pred["current_stock"],
+                }))
+            if(int(pred["predicted_stock"]) <= 0):
+                zero = True
+            
+        if zero == True:
+            break
+        
+    pred = results
     
     llm = request.get("llm")
     
     if(llm):
-        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir stock de todos los productos hasta que alguno se agote los datos son los siguientes"+pred)
+        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir stock de todos los productos hasta que alguno se agote los datos son los siguientes"+str(pred))
     
     return pred
 
