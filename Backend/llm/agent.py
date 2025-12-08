@@ -1,5 +1,3 @@
-from langchain_ollama import ChatOllama
-from langchain_core.messages import HumanMessage, SystemMessage
 import re
 import random
 
