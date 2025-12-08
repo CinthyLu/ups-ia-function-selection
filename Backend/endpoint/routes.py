@@ -356,7 +356,8 @@ async def chat(request: Dict[str, Any] = Body(...)):
                 {
                     "text": """¡Hola! Con gusto te ayudo con la información que necesitas.
 
-Mira, la función con la que trabajamos y que nos da la información más probable es predict_data.
+# Mira, 
+la función con la que trabajamos y que nos da la información más probable es predict_data.
 
 Aquí te muestro los resultados que obtuvimos:
 

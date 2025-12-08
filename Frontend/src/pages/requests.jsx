@@ -39,7 +39,6 @@ export function Requests() {
 
   const apiRequest = async (url, options = {}) => {
     try {
-      setLoading(true);
       setError("");
 
       const res = await fetch(url, options);
@@ -53,128 +52,139 @@ export function Requests() {
       setError("Error conectando al servidor");
       return null;
     } finally {
-      setLoading(false);
+      
     }
   };
 
   // ---------- MÉTODOS EQUIVALENTES A ANGULAR ----------
 
-  const predecirStockProducto = async () => {
-    limpiarPredicciones();
-    if (!producto || !fecha) {
-      setError("Producto y fecha son obligatorios");
-      return;
-    }
+  
 
-    reset();
+// producto + fecha
+const predecirStockProducto = async () => {
+  limpiarPredicciones();
+  if (!producto || !fecha) {
+    setError("Producto y fecha son obligatorios");
+    return;
+  }
 
-    const r = await apiRequest(`${API_URL}/predict-product-stock`, {
+  reset();
+
+  const r = await apiRequest(`${API_URL}/predict/product-date`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: producto,
+      date: fecha,
+      llm: modoAvanzado
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (r) {
+    setRespuesta(`Stock predicho: ${r.predicted_stock}`);
+    setRespuestaModelo(r);
+  }
+};
+
+// todos los productos para una fecha
+const predecirFechaCompleta = async () => {
+  limpiarPredicciones();
+  if (!fecha) {
+    setError("La fecha es obligatoria");
+    return;
+  }
+
+  reset();
+
+  const r = await apiRequest(`${API_URL}/predict/date`, {
+    method: "POST",
+    body: JSON.stringify({
+      date: fecha,
+      llm: modoAvanzado
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  if (r) {
+    setRespuesta(`Total productos predichos: ${r.length}`);
+    setPredicciones(r);
+    setRespuestaModelo(r);
+  }
+};
+
+// todos los productos hasta que alguno se agote
+const productosEnRiesgo = async () => {
+  limpiarPredicciones();
+  reset();
+
+  const r = await apiRequest(`${API_URL}/predict/all`, {
+    method: "POST",
+    body: JSON.stringify({ llm: modoAvanzado }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  if (r) {
+    setRespuesta("Predicción generada.");
+    setPredicciones(r);
+    setRespuestaModelo(r);
+  }
+};
+
+// un producto hasta agotarse
+const predecirAgotamiento = async () => {
+  limpiarPredicciones();
+  if (!producto) {
+    setError("Escribe un producto");
+    return;
+  }
+
+  reset();
+
+  const r = await apiRequest(`${API_URL}/predict/product`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: producto,
+      llm: modoAvanzado
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  if (r) {
+    const ultimo = r[r.length - 1];
+    setRespuesta(`Se agotará el ${ultimo.date}`);
+    setPredicciones(r);
+    setRespuestaModelo(r);
+  }
+};
+
+// subir CSV
+const subirCSV = async (event) => {
+  limpiarPredicciones();
+  const file = event.target.files[0];
+  if (!file) return;
+
+  reset();
+
+  const form = new FormData();
+  form.append("file", file);
+
+  try {
+    const res = await fetch(`${API_URL}/upload/retrain`, {
       method: "POST",
-      body: JSON.stringify({
-        product_name: producto,
-        predict_date: fecha,
-      }),
-      headers: { "Content-Type": "application/json" },
+      body: form
     });
 
-    if (r) {
-      setRespuesta(`Stock esperado: ${r.predicted_stock}`);
-      setRespuestaModelo(r);
-    }
-  };
+    if (!res.ok) throw new Error("Error subiendo CSV");
 
-  const predecirFechaCompleta = async () => {
-    limpiarPredicciones();
-    if (!fecha) {
-      setError("La fecha es obligatoria");
-      return;
-    }
+    const r = await res.json();
+    setRespuesta("Modelo reentrenado.");
+    setRespuestaModelo(r);
+  } catch (err) {
+    setError("Error subiendo CSV");
+  } finally {
+  }
+};
 
-    reset();
-
-    const r = await apiRequest(`${API_URL}/predict-date`, {
-      method: "POST",
-      body: JSON.stringify({
-        prediction_date: fecha,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (r) {
-      setRespuesta(`Total productos predichos: ${r.total_products}`);
-      setRespuestaModelo(r);
-      setPredicciones(r.predictions || []);
-    }
-  };
-
-  const productosEnRiesgo = async () => {
-    limpiarPredicciones();
-    reset();
-
-    const r = await apiRequest(`${API_URL}/predict-products-at-risk`);
-
-    if (r) {
-      setRespuesta(
-        `Productos en riesgo: ${r.total_products} — Fecha riesgo: ${r.risk_date}`
-      );
-      setRespuestaModelo(r);
-      setPredicciones(r.products_at_risk || []);
-    }
-  };
-
-  const predecirAgotamiento = async () => {
-    limpiarPredicciones();
-
-    if (!producto) {
-      setError("Escribe un producto");
-      return;
-    }
-
-    reset();
-
-    const r = await apiRequest(`${API_URL}/predict-product-out`, {
-      method: "POST",
-      body: JSON.stringify({
-        product_name: producto, 
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (r) {
-      setRespuesta(`Se agotará el ${r.predicted_out_date}`);
-      setRespuestaModelo(r);
-    }
-  };
-
-  const subirCSV = async (event) => {
-    limpiarPredicciones();
-    const file = event.target.files[0];
-    if (!file) return;
-
-    reset();
-    setLoading(true);
-
-    const form = new FormData();
-    form.append("file", file);
-
-    try {
-      const res = await fetch(`${API_URL}/upload-csv`, {
-        method: "POST",
-        body: form,
-      });
-
-      if (!res.ok) throw new Error("Error subiendo CSV");
-
-      const r = await res.json();
-      setRespuesta("Modelo reentrenado.");
-      setRespuestaModelo(r);
-
-    } catch (err) {
-      setError("Error subiendo CSV");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // ---------- RENDER ----------
   return (
