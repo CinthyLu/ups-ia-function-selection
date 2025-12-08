@@ -3,6 +3,9 @@ import { Canvas } from "@react-three/fiber";
 import { Experience } from "../components/Experience";
 import { useChat } from "../hooks/useChat";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+
 
 export function Llm() {
   const [mensajes, setMensajes] = useState([]);
@@ -89,7 +92,9 @@ export function Llm() {
                 {m.remitente === "CHAT" && (
                   <div className="flex justify-start">
                     <div className="bg-[#ffb703] text-[#0f2c63] px-4 py-2 rounded-3xl max-w-[75%]">
-                      <ReactMarkdown>{m.texto}</ReactMarkdown>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                        {m.texto}
+                      </ReactMarkdown>
                       {/* {m.texto} */}
                     </div>
                   </div>
