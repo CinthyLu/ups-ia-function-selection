@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "../components/Experience";
 import { useChat } from "../hooks/useChat";
-// import ReactMarkdown from "react-markdown";
+import ReactMarkdown from "react-markdown";
 
 export function Llm() {
   const [mensajes, setMensajes] = useState([]);
@@ -89,8 +89,8 @@ export function Llm() {
                 {m.remitente === "CHAT" && (
                   <div className="flex justify-start">
                     <div className="bg-[#ffb703] text-[#0f2c63] px-4 py-2 rounded-3xl max-w-[75%]">
-                      {/* <ReactMarkdown>{m.texto}</ReactMarkdown> */}
-                      {m.texto}
+                      <ReactMarkdown>{m.texto}</ReactMarkdown>
+                      {/* {m.texto} */}
                     </div>
                   </div>
                 )}
