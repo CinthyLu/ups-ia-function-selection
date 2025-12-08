@@ -16,7 +16,7 @@ def check_regex_response(user_text: str) -> str | None:
     
     if re.search(patron_saludos, text):
         respuestas = [
-            "¡Hola! Bienvenido a Nombre. ¿En qué puedo ayudarte hoy?",
+            "¡Hola! Bienvenido a ARC, tu tienda de electronicos avanzada. ¿En qué puedo ayudarte hoy?",
             "¡Buenas! Soy tu asistente virtual. ¿Buscas stock o información?",
             "¡Hola! Estoy listo para ayudarte con el inventario."
         ]
@@ -27,7 +27,7 @@ def check_regex_response(user_text: str) -> str | None:
     
     if re.search(patron_despedidas, text):
         respuestas = [
-            "¡Hasta luego! Gracias por visitar Nombre.",
+            "¡Hasta luego! Gracias por visitar ARC.",
             "¡Chao! Vuelve pronto.",
             "Nos vemos. Espero haberte ayudado."
         ]
@@ -42,7 +42,9 @@ def check_regex_response(user_text: str) -> str | None:
             "¡Para eso estamos!",
             "Con gusto. ¿Necesitas algo más?"
         ]
-        return random.choice(respuestas)
+        r = random.choice(respuestas)
+        print(f"Respuesta regex agradecimiento: {r}")
+        return r
 
     # Si no coincidió con nada, devolvemos None para que pase al siguiente filtro (RAG o LLM)
     return None
