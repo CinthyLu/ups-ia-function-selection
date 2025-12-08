@@ -5,6 +5,7 @@ import tensorflow as tf
 import joblib
 import os
 from pathlib import Path
+from tensorflow import keras
 from db.predictions_saved import *
 import threading
 
@@ -28,7 +29,7 @@ df = load_inventory_dataset()
 df = df.sort_values(["product_id", "created_at"])
 # Cargar modelo y scaler con rutas centralizadas
 def _load_model_and_scaler(model_path=MODEL_PATH, scaler_path=SCALER_PATH):
-    m = tf.keras.models.load_model(str(model_path), compile=False)
+    m = keras.models.load_model(str(model_path), compile=False)
     s = joblib.load(str(scaler_path))
     return m, s
 
@@ -221,7 +222,7 @@ def create_features_dict(
 
 # ==================== FUNCIÓN PRINCIPAL ====================
 
-def predict_stock(
+def predict_stock_product_date(
     product_id: str, 
     date: str, 
     use_cache: bool = False   

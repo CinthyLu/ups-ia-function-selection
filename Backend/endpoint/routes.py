@@ -9,7 +9,7 @@ from lipsync.lipsyncgen import generate_lipsync
 from ai.matcher import FunctionCaller
 from db.functions import generate_csv , generate_excel, top_selling, least_selling
 from llm.agent import check_regex_response
-
+from model.methods import predict_stock_product_date
 
 router = APIRouter()
 caller = FunctionCaller()
@@ -49,6 +49,10 @@ async def predict_product_fecha(request: Dict[str, Any] = Body(...)):
         
         
     llm = request.get("llm")
+    
+    pred = predict_stock_product_date(
+        product_id=product,
+        date=date)
     
     if(llm):
         pred = naturalize_response("Se envió una solicitud en donde se intenta predecir el stock de un producto específico en una fecha los datos son los siguientes"+pred)
@@ -215,32 +219,34 @@ async def chat(request: Dict[str, Any] = Body(...)):
                 # print(resultado['confianza'])    
                 
                 if(resultado['confianza'] > 0.9):
+                    pred = "La función con mayor probabilidad es " + resultado['funcion'] + "los resultados de la función son"
                     if resultado['funcion'] == "predict_stock":
-                        predict_stock() # no necesita parametros
+                        pred += predict_stock() # no necesita parametros
                     if resultado['funcion'] == "predict_product":
-                        predict_product({ "name": resultado['parametros']['producto']})
+                        pred += predict_product({ "name": resultado['parametros']['producto']})
                     if resultado['funcion'] == "predict_date":
                         # print(resultado['parametros']['fecha'])
-                        predict_date({ "date":resultado['parametros']['fecha']})
+                        pred += predict_date({ "date":resultado['parametros']['fecha']})
                     if resultado['funcion'] == "predict_product_fecha":
-                        predict_product_fecha({ "name":resultado['parametros']['producto'],"date": resultado['parametros']['fecha']})
+                        pred += predict_product_fecha({ "name":resultado['parametros']['producto'],"date": resultado['parametros']['fecha']})
                     if resultado['funcion'] == "top_selling":
                         data = top_selling()
-                        pred = f"Los 5 productos más vendidos son: {data}"
+                        pred += f"Los 5 productos más vendidos son: {data}"
 
                     elif resultado['funcion'] == "least_selling":
                         data = least_selling()
-                        pred = f"Los 5 productos menos vendidos son: {data}"
+                        print(data)
+                        pred += f"Los 5 productos menos vendidos son: {data}"
 
                     elif resultado['funcion'] == "generate_csv":
                         month = resultado["parametros"].get("mes")  # opcional
                         file = generate_csv(month)
-                        pred = f"Se generó el CSV en: {file}"
+                        pred = +f"Se generó el CSV en: {file}"
 
                     elif resultado['funcion'] == "generate_excel":
                         month = resultado["parametros"].get("mes")  # opcional
                         file = generate_excel(month)
-                        pred = f"Se generó el Excel en: {file}"
+                        pred = +f"Se generó el Excel en: {file}"
                     
             except Exception as e:
                 print("ERROR en identificar_funcion:", e)
