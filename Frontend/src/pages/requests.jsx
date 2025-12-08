@@ -81,9 +81,10 @@ const predecirStockProducto = async () => {
   });
 
   if (r) {
-    setRespuesta(`Stock predicho: ${r.predicted_stock}`);
+    setRespuesta(JSON.stringify(r, null, 2));
     setRespuestaModelo(r);
   }
+
 };
 
 // todos los productos para una fecha
@@ -106,10 +107,11 @@ const predecirFechaCompleta = async () => {
   });
 
   if (r) {
-    setRespuesta(`Total productos predichos: ${r.length}`);
+    setRespuesta(JSON.stringify(r, null, 2));
     setPredicciones(r);
     setRespuestaModelo(r);
   }
+
 };
 
 // todos los productos hasta que alguno se agote
@@ -124,7 +126,7 @@ const productosEnRiesgo = async () => {
   });
 
   if (r) {
-    setRespuesta("Predicción generada.");
+    setRespuesta(JSON.stringify(r, null, 2));
     setPredicciones(r);
     setRespuestaModelo(r);
   }
@@ -150,11 +152,11 @@ const predecirAgotamiento = async () => {
   });
 
   if (r) {
-    const ultimo = r[r.length - 1];
-    setRespuesta(`Se agotará el ${ultimo.date}`);
+    setRespuesta(JSON.stringify(r, null, 2));
     setPredicciones(r);
     setRespuestaModelo(r);
   }
+
 };
 
 // subir CSV
