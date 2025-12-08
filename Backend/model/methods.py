@@ -5,7 +5,7 @@ import tensorflow as tf
 import joblib
 import os
 from pathlib import Path
-from tensorflow import keras
+import keras
 from db.predictions_saved import *
 import threading
 
@@ -15,13 +15,12 @@ from model.db_loader import load_inventory_dataset
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # Obtener el directorio base (BackendBD)
-BASE_DIR = Path(__file__).resolve().parent.parent
-FILES_DIR = BASE_DIR / "files/"
+FILES_DIR ="files/"
 
 # Rutas a los archivos necesarios
-DATASET_PATH = FILES_DIR / "dataset_preparado.csv"
-MODEL_PATH = FILES_DIR / "modelo.h5"
-SCALER_PATH = FILES_DIR / "scaler.pkl"
+DATASET_PATH = FILES_DIR + "dataset_preparado.csv"
+MODEL_PATH = FILES_DIR + "modelo.h5"
+SCALER_PATH = FILES_DIR + "scaler.pkl"
 
 
 # Cargar datos y modelo al inicio

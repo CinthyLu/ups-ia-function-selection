@@ -55,7 +55,7 @@ async def predict_product_fecha(request: Dict[str, Any] = Body(...)):
         date=date)
     
     if(llm):
-        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir el stock de un producto específico en una fecha los datos son los siguientes"+pred)
+        pred = naturalize_response("Se envió una solicitud en donde se intenta predecir el stock de un producto específico en una fecha los datos son los siguientes"+str(pred))
     
     return pred
 
