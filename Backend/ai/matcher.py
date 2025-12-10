@@ -91,8 +91,8 @@ class FunctionCaller:
                 print("-" * 70)
                 for idx, row in enumerate(results, 1):
                     confianza = row[3]
-                    emoji = "✅" if confianza >= 0.6 else "⚠️"
-                    print(f"{emoji} {idx}. {row[1]:<35} Confianza: {confianza:.4f}")
+                    
+                    print(f"{idx}. {row[1]:<35} Confianza: {confianza:.4f}")
                 print("-" * 70)
             
             # Validar resultado
