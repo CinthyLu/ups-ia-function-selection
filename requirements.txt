@@ -1,0 +1,15 @@
+#compiled with python 12
+uvicorn
+fastapi
+pandas
+tensorflow
+scikit-learn
+mlflow
+psycopg2-binary
+pgvector
+sentence_transformers
+tf-keras
+google-genai
+gtts
+pydub
+python-multipart
