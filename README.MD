@@ -21,7 +21,7 @@
 "Con quién me contacto para admisiones en la UPS"
 "Cuáles son los tipos de becas"
 "Malla curricular de computación"
-"Predicción de stock para hamburguesa"
+
 
 ```
 
