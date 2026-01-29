@@ -1,135 +1,187 @@
-# Aplicación - Backend
 
-$Karen$ en  cuenta esto routes.py ln 140 && 142
-revisa esto en el matcher ln 126
-        result = session.execute(text(
-            "SELECT DISTINCT nombre FROM productos WHERE activo = true"
-        ))
-ahi le colocas con la base de datos lo que tengas para extraer parametros, es la unicaque no le estoy haciendo
+# UPS AI Assistant - Function Matching & Predictions
 
-los métodos ya están funcionando, o bueno igual con todo que les revisen, y faltaría que modifiquen el routes, metiendole lo de predicciones
+[![FastAPI](https://img.shields.io/badge/FastAPI-Modern%20API-red)](https://fastapi.tiangolo.com/) [![React](https://img.shields.io/badge/React-Frontend-blue)](https://reactjs.org/) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Vector%20DB-brightgreen)](https://postgresql.org/) [![Docker](https://img.shields.io/badge/Docker-Container-blue)](https://docker.com/)
 
-en retrain que le metan tambien le método de reentrenamiento
+**Aplicación de IA para consultas universitarias (UPS) con Function Matching inteligente, predicciones de inventario y RAG para FAQs.**
 
-no supe cómo hacer que funcione su base de datos, pero bueno en todo caso, en matcher tienen que revisar una tabla de products, porque estoy leyendo produc_id y no me acuerdo qué era realmente. y lo de las funciones ya está ahi más o menos, si quieren hacer pruebas con el chat, hay un README.mc dentro de functionMatcher, que tiene algunos ejemplos que si funcionan, igual con todo lean todo este documento antes de empezar
+## ✨ ¿Qué hace la app?
 
-porque tienen que ejecutar el initializer, individualmente antes de iniciar la aplicación para que les funcione la parte de function_matcher
+### Funcionalidades principales:
 
-al final, igual se están haciendo embeddings, y palabras clave y con los ejemplos que les doy en el readme, la confianza el super alta y le coloqué un treshold de 90%
+1. **Function Matcher (IA)**: Convierte consultas del usuario en llamadas automáticas a funciones usando embeddings + KNN (similitud coseno >90%)
+2. **Predicciones de inventario**: ML para stock con opciones por producto, fecha o general
+3. **Chatbot universitario**: Respuestas sobre admisiones, becas, mallas curriculares
+4. **RAG + FAQs**: Retrieval Augmentation con documentos de la universidad
+5. **Frontend React**: Interfaz moderna para chat y predicciones
 
+**Ejemplos de consultas que entiende:**
+```
 
-## Inicialización
+"Con quién me contacto para admisiones en la UPS"
+"Cuáles son los tipos de becas"
+"Malla curricular de computación"
+"Predicción de stock para hamburguesa"
 
-Este proyecto fue hecho con una base de datos de vectores de postgresql, para su uso, necesitamos inicializar tanto la base de datos con docker en este nivel del proyecto el backend y frontend
+```
 
+---
 
-**Backend**
-ejecutar
-docker compose
-Backend/ai/functionMatcher/Initializer.py  **Para inicializar el matcher de funciones**
-Backend/db/models.py **Para inicializar las tables de faqs**
-Backend/db/Tables.py **Para rellenar las tablas**  se puede hacer nuevamente el models.py
-Generar y colocar el api de google `GOOGLE_GEMINI_API_KEY={api_key}`
-main.py para la aplicación
-**Frontend**
-cd Frontend
-npm install || yarn
-npm run dev || yarn dev
+## 🚀 Quick Start
 
+### 1. Backend (FastAPI + Postgres)
 
-### Extras
+```bash
+# 1. Levantar base de datos
+docker compose up -d
 
-Antes de iniciar ejecutar el archivo initializer.py para crear la abse de datos de function matcher
+# 2. Inicializar Function Matcher (IMPORTANTE)
+cd Backend/ai/functionMatcher/
+python Initializer.py
 
-## TODO: 
+# 3. Crear tablas FAQs
+cd Backend/db/
+python models.py
+python Tables.py  # rellena datos
 
---------
- 
- ## Partially done 
+# 4. Configurar API Key (Gemini)
+echo 'GOOGLE_GEMINI_API_KEY=tu_api_key_aqui' > .env
 
-maneje los métodos de predicción
-    - Predicción stock 
-    - Predicción stock con producto
-    - Predicción stock con fecha
-    - Predicción stock con fecha y producto
+# 5. Correr aplicación
+python main.py
+```
 
-Agregar nuevos registros productos
-    - en formato csv
-    - Actualizar el modelo
+**Backend disponible en:** `http://localhost:8000`
 
+### 2. Frontend (React)
 
---------
+```bash
+cd Frontend/
+npm install
+npm run dev
+```
 
+**Frontend disponible en:** `http://localhost:3000`
 
+---
 
-## DONE: 
+## 🔧 API Endpoints
 
+| Endpoint | Descripción | Ejemplo |
+| :-- | :-- | :-- |
+| `POST /chat` | Chat con function matching | `{"query": "malla de computación"}` |
+| `POST /predict/stock` | Predicción stock general | `{}` |
+| `POST /predict/stock/product/{id}` | Stock por producto | `{}` |
+| `POST /predict/stock/date/{date}` | Stock por fecha | `{}` |
+| `POST /predict/stock/product-date` | Stock producto + fecha | `{"product_id": 1}` |
 
-función de cargar_csv
+**Docs automáticos:** `http://localhost:8000/docs`
 
+---
 
+## 🏗️ Arquitectura
 
-functiones a definir
-    - Productos más vendidos (query)
-    - Productos menos vendido (query)
-    - generar reportes (csv)
-    - generar reportes (excel)
+```
+Usuario → React Frontend → FastAPI Backend
+                    ↓
+            Function Matcher (KNN + Embeddings)
+                    ↓
+        Predicciones ML / RAG / FAQs / Gemini
+                    ↓
+             PostgreSQL (vectores + datos)
+```
 
+**Tecnologías:**
 
+- **Backend**: FastAPI, PostgreSQL (vectores), Gemini LLM
+- **IA**: Sentence Transformers, scikit-learn (KNN), embeddings
+- **Frontend**: React, TypeScript
+- **Infra**: Docker Compose
 
-function Matcher:
-    - expresiones regulares para obtener los parametros
-    - similaridad de coseno en funciones
-    - llamado de funciones
+---
 
+## 📊 Function Matching (cómo funciona)
 
-Langchain
+1. **Query** → Embedding
+2. **Comparación** con descripciones de funciones (similitud coseno)
+3. **Selección** función más cercana (>90% confianza)
+4. **Ejecución** y respuesta natural
 
-    - Preguntas frecuentes
-    - embeddings
-    - documentos
+**Ejemplo:**
 
-
-FRONTEND
-
-    - REACT para ventanas
-
-
-fastapi - conexión
-
-    - predict all ( useLlm)
-    
-    - predict by product (Product, useLlm)
-    
-    - predict by date (Date, useLlm)
-    
-    - preduct by date and product (Date, product, useLlm)
-    
-    - chat (texto)
-
-Conexión llm - gemini
-
-    - naturalize (texto) -> texto
-
-Rhubarb - gestos faciales
-
-    - tts( audio )-> json
-
-api tts - gratuita
-
-    getAudio
+```
+Query: "becas UPS"
+→ Selecciona: fn_tipos_becas()
+→ Respuesta: "Becas 30%, 40%, 50%"
+```
 
 
-Expresiones regulares
+---
 
-    - para saludos, agradecimientos y despedidas
+## 🔄 Comandos útiles
 
-RAG retrieval data augmentation para faqs
+```bash
+# Reentrenar matcher
+python Backend/ai/functionMatcher/retrain.py
 
-    - da información sobre la empresa 
+# Reiniciar todo
+docker compose down -v && docker compose up -d
+cd Backend/ai/functionMatcher/ && python Initializer.py
+```
 
-        - Preguntas frecuentes
 
-Docker
+---
 
-    - Base de datos
+<!-- ## 🚧 TODO (Pendiente)
+
+- ✅ Function Matching (embeddings + KNN)
+- ✅ Predicciones stock (todas las variantes)
+- ✅ RAG para FAQs
+- ✅ Carga CSV productos
+- ⏳ **Extraer parámetros SQL en matcher** (routes.py ln 140)
+- ⏳ **Reentrenamiento dinámico**
+- ⏳ **Productos más/menos vendidos**
+- ⏳ **Reportes CSV/Excel** -->
+
+---
+
+## 🛠️ Desarrollo
+
+### Dependencias Backend
+
+```bash
+pip install -r Backend/requirements.txt
+```
+
+
+### Dependencias Frontend
+
+```bash
+cd Frontend/ && npm install
+```
+
+
+### Agregar nueva función
+
+1. `Backend/ai/functionMatcher/functions.py` → nueva función
+2. `matching.py` → agregar al `FUNCTION_CATALOG`
+3. `python Initializer.py` → reentrenar
+
+---
+
+## 📱 Testing
+
+**Probar chat:**
+
+```bash
+curl -X POST "http://localhost:8000/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "malla curricular de arquitectura"}'
+```
+
+**Ver similitudes (debug):**
+El endpoint `/chat` devuelve `function` y `similarity`.
+
+---
+
+
