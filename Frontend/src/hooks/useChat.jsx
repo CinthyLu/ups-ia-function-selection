@@ -12,7 +12,6 @@ export const ChatProvider = ({ children }) => {
   
  const chat = async (text) => {
     setLoading(true);
-    console.log("Datos enviados:", text);
     
     try {
       const data = await fetch(`${backendUrl}/api/chat`, {
@@ -20,23 +19,21 @@ export const ChatProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: text }), // Asegúrate de que el backend reciba "message"
+        body: JSON.stringify({ message: text }),
       });
 
       const response = await data.json();
       
-      // 'resp' suele ser el array de mensajes que devuelve el backend (con audio, texto, etc.)
-      const resp = response.messages || response.text; 
-      
+      // Obtenemos el texto (ya sea de response.messages[0].text o response.text)
+      const textContent = response.messages ? response.messages[0].text : response.text;
+
       const newResponseMessage = {
-        text: resp,
-        
+        text: textContent,
       };
-      // Actualizamos la cola de mensajes
-      // Esto hará que el useEffect en ChatContext asigne el primer mensaje a 'message'
-      // Y a su vez, el useEffect en tu componente Llm detecte ese 'message'
-      console.log(resp) // // esto es igual a texto de respuesta
-      setMessages((prev) => [...prev, newResponseMessage]);
+
+      // Reemplazamos la lista para que solo contenga el nuevo mensaje
+      // Esto asegura que el useEffect tome este y solo este mensaje
+      setMessages([newResponseMessage]);
 
     } catch (error) {
       console.error("Error en chat:", error);
